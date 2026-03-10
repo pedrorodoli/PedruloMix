@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedruloguess - Adivina el Temazo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loader"></div>
+        <p id="loadingText">Preparando el temazo...</p>
+    </div>
+
+    <div class="container">
+        <header id="mainHeader">
+            <h1>PEDRULO<span class="highlight">GUESS</span></h1>
+            
+            <div id="setupArea">
+                <div class="mode-selector">
+                    <span>MODO:</span>
+                    <select id="gameMode">
+                        <option value="normal">Normal</option>
+                        <option value="artist">Artista</option>
+                        <option value="album">Álbum</option>
+                    </select>
+                </div>
+                <button id="startGameBtn" class="action-btn primary" style="margin-top: 20px; width: 100%;">EMPEZAR PARTIDA</button>
+            </div>
+
+            <div id="gameHeader" class="hidden">
+                <div class="instruction-wrapper">
+                    <p id="instructionText">Adivina el reggaeton</p>
+                    <button id="editModeBtn" class="edit-btn" title="Cambiar selección">✎</button>
+                </div>
+                <div id="attemptsCounter" class="attempts-counter">Intentos restantes: 6</div>
+            </div>
+        </header>
+
+        <div id="gameArea" class="game-area hidden">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="segments" id="segments"></div>
+            </div>
+
+            <div class="controls">
+                <button id="changeSongBtn" class="action-btn secondary small" title="Cambiar Canción">Cambiar de canción...</button>
+                <button id="playBtn" class="control-btn play">▶</button>
+            </div>
+
+            <div class="guesses-container grid-guesses" id="guessesList"></div>
+
+            <div class="input-area" id="inputArea">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Busca canción o artista..." autocomplete="off">
+                    <div id="searchResults" class="search-results hidden"></div>
+                </div>
+                <button id="skipBtn" class="action-btn skip">SALTAR</button>
+            </div>
+        </div>
+
+        <!-- Result Modal -->
+        <div id="resultModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="resultTitle">¡HAS GANADO!</h2>
+                <div class="song-reveal">
+                    <img id="revealImage" src="" alt="Caratula">
+                    <div class="song-info">
+                        <h3 id="revealTitle">Song Title</h3>
+                        <p id="revealArtist">Artist</p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <div class="split-buttons">
+                        <button id="modalChangeModeBtn" class="action-btn secondary xsmall">Cambiar modo</button>
+                        <button id="modalChangeSelectionBtn" class="action-btn secondary xsmall">Cambiar artista</button>
+                    </div>
+                    <button id="playFullBtn" class="action-btn">Escuchar Entera</button>
+                    <button id="downloadBtn" class="action-btn">Descargar MP3</button>
+                    <button id="nextGameBtn" class="action-btn primary">Siguiente Canción</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Selection Modal -->
+        <div id="modeModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="modeModalTitle">Selecciona Artista</h2>
+                <div class="search-box">
+                    <input type="text" id="modeSearchInput" placeholder="Escribe para buscar..." autocomplete="off">
+                    <div id="modeSearchResults" class="search-results-modal"></div>
+                </div>
+                <button id="closeModeModal" class="action-btn secondary" style="margin-top: 20px;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
